@@ -10,7 +10,16 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { StockManageComponent } from './stock/stock-manage/stock-manage.component';
 import { StarsComponent } from './stars/stars.component';
+import { Routes, RouterModule } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { StockFormComponent } from './stock/stock-form/stock-form.component';
 
+const routeConfig: Routes = [
+  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'stock', component: StockManageComponent},
+  {path: 'stock/:id', component: StockFormComponent}
+];
 
 @NgModule({
   declarations: [
@@ -22,10 +31,13 @@ import { StarsComponent } from './stars/stars.component';
     ContentComponent,
     StockManageComponent,
     StarsComponent,
+    DashboardComponent,
+    StockFormComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule.forRoot(routeConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

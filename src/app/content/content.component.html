@@ -2,8 +2,9 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Stock Management Systems
-      <small>manage and customize your stock information.</small>
+      {{pageTitle}}
+      <!-- <small>manage and customize your stock information.</small> -->
+      <small>{{pageDesc}}</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -13,7 +14,8 @@
 
   <!-- Main content -->
   <section class="content container-fluid">
-    <app-stock-manage></app-stock-manage>
+    <router-outlet></router-outlet>
+    <!-- <app-stock-manage></app-stock-manage> -->
   </section>
   <!-- /.content -->
 </div>
