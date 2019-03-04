@@ -24,7 +24,7 @@ export class StockService {
   }
 
   getStock(id: number): Stock {
-    let stock = this.stocks.find(stock => stock.id === id);
+    let stock = this.stocks.find(st => st.id === id);
     if (!stock) {
       stock = new Stock(0, '', 0, 0, '', []);
     }
