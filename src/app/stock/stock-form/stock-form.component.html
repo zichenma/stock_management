@@ -15,13 +15,16 @@
         <div class="form-group">
           <label for="price" class="col-sm-2 control-label">Stock Price</label>
           <div class="col-sm-6">
-            <input type="number" class="form-control" id="price" placeholder="Password">
+            <input type="number" class="form-control" id="price" placeholder="Stock Price">
           </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Stock Rating</label>
             <div class="col-sm-6">
-                <app-stars [rating]="stock?.rating"></app-stars>
+                <!-- one way binding: -->
+                <!-- <app-stars [rating]="stock?.rating" [readonly]="false"></app-stars> -->
+                <!-- two way binding: -->
+                <app-stars [(rating)]="stock.rating" [readonly]="false"></app-stars>
             </div>
         </div>
         <div class="form-group">
