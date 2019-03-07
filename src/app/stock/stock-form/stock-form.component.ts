@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Stock } from '../stock-manage/stock';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { StockService } from '../stock.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
 
 
 
@@ -35,12 +35,26 @@ export class StockFormComponent implements OnInit {
         price: [this.stock.price, [Validators.required]],
         desc: [this.stock.desc],
         categories: fb.array([
-          new FormControl(this.stock.categories.indexOf(this.categories[0]) !== -1),
-          new FormControl(this.stock.categories.indexOf(this.categories[1]) !== -1),
-          new FormControl(this.stock.categories.indexOf(this.categories[2]) !== -1)
-        ])
+          [(this.stock.categories.indexOf(this.categories[0]) !== -1)],
+          [(this.stock.categories.indexOf(this.categories[1]) !== -1)],
+          [(this.stock.categories.indexOf(this.categories[2]) !== -1)]
+        ], this.categoriesSelectValidator)
       }
     );
+  }
+
+  categoriesSelectValidator (control: FormArray) {
+      let valid = false;
+      control.controls.forEach(control => {
+         if (control.value) {
+             valid = true;
+         }
+      });
+      if (valid) {
+        return null;
+      } else {
+        return {categoriesLength: true};
+      }
   }
 
   cancel () {

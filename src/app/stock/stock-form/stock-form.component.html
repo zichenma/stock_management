@@ -7,24 +7,27 @@
     <form [formGroup]="formModel" class="form-horizontal">
       <div class="box-body">
         <div class="form-group" 
-        [class.has-error]="formModel.hasError('minlength', 'name') || 
-        formModel.hasError('required', 'name')">
+        [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength', 'name') || 
+        formModel.hasError('required', 'name'))">
           <label for="name" class="col-sm-2 control-label">Stock Name</label>
           <div class="col-sm-6">
             <input formControlName="name" type="text" class="form-control" id="name" placeholder="Stock Name">
           </div>
-          <span class="help-block" [class.hidden]="!formModel.hasError('required', 'name')">
+          <span class="help-block" [class.hidden]="formModel.get('name').untouched || !formModel.hasError('required', 'name')">
                 Stock name is required!
           </span>
-          <span class="help-block" [class.hidden]="!formModel.hasError('minlength', 'name')">
+          <span class="help-block" [class.hidden]="formModel.get('name').untouched || !formModel.hasError('minlength', 'name')">
                 Please enter at least 3 characters!
          </span>
         </div>
-        <div class="form-group">
+        <div class="form-group" [class.has-error]="formModel.hasError('required', 'price')">
           <label for="price" class="col-sm-2 control-label">Stock Price</label>
           <div class="col-sm-6">
             <input formControlName="price" type="number" class="form-control" id="price" placeholder="Stock Price">
           </div>
+          <span class="help-block" [class.hidden]="!formModel.hasError('required', 'price')">
+                Stock price is required!
+          </span>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Stock Rating</label>
@@ -43,7 +46,7 @@
                 <textarea formControlName="desc" class="form-control" rows="5"></textarea>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" [class.has-error]="formModel.get('categories').touched && formModel.hasError('categoriesLength', 'categories')">
             <label class="col-sm-2 control-label">Stock Catagories</label>
             <div class="col-sm-10">
                <div class="row" formArrayName="categories">
@@ -55,6 +58,9 @@
                             </label>
                         </div>
                     </div>
+                <span class="help-block" [class.hidden]="formModel.get('categories').untouched || !formModel.hasError('categoriesLength', 'categories')">
+                    Please choose at least one catagory!
+                </span>
                </div>
             </div>
         </div>
@@ -62,7 +68,7 @@
       <!-- /.box-body -->
       <div class="box-footer">
         <button (click)="cancel()" type="submit" class="btn btn-default">Cancel</button>
-        <button (click)="save()" type="submit" class="btn btn-info pull-right">Save</button>
+        <button (click)="save()" [disabled]="formModel.invalid" type="submit" class="btn btn-info pull-right">Save</button>
       </div>
       <!-- /.box-footer -->
     </form>
