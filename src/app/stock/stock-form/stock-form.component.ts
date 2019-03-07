@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Stock } from '../stock-manage/stock';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { StockService } from '../stock.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 
@@ -11,6 +12,10 @@ import { StockService } from '../stock.service';
   styleUrls: ['./stock-form.component.css']
 })
 export class StockFormComponent implements OnInit {
+
+  formModel: FormGroup;
+
+  categories: Array<string> = ['IT', 'Network', 'Finance'];
 
   stock: Stock;
 
@@ -23,6 +28,19 @@ export class StockFormComponent implements OnInit {
   ngOnInit() {
     const stockId = +this.routeInfo.snapshot.params['id'];
     this.stock = this.stockService.getStock(stockId);
+    const fb = new FormBuilder();
+    this.formModel = fb.group(
+      {
+        name: [this.stock.name, [Validators.required, Validators.minLength(3)]],
+        price: [this.stock.price, [Validators.required]],
+        desc: [this.stock.desc],
+        categories: fb.array([
+          new FormControl(this.stock.categories.indexOf(this.categories[0]) !== -1),
+          new FormControl(this.stock.categories.indexOf(this.categories[1]) !== -1),
+          new FormControl(this.stock.categories.indexOf(this.categories[2]) !== -1)
+        ])
+      }
+    );
   }
 
   cancel () {
@@ -30,8 +48,18 @@ export class StockFormComponent implements OnInit {
   }
 
   save() {
-    console.log(this.stock.rating);
-    this.router.navigateByUrl('/stock');
+    // console.log(this.stock.rating);
+    // this.router.navigateByUrl('/stock');
+    const englishCategories = [];
+    let index = 0;
+    for (let i = 0; i < 3; i++) {
+      if (this.formModel.value.categories[i]) {
+        englishCategories[index++] = this.categories[i];
+      }
+    }
+    this.formModel.value.categories = englishCategories;
+    this.formModel.value.rating = this.stock.rating;
+    console.log(this.formModel.value);
   }
 
 }
