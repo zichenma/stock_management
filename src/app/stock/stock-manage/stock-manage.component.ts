@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Stock } from './stock';
+import { Stock } from '../stock';
 import { Router } from '@angular/router';
 import { StockService } from '../stock.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-stock-manage',
@@ -12,10 +13,12 @@ import { debounceTime } from 'rxjs/operators';
 })
 
 export class StockManageComponent implements OnInit {
-
-  private stocks: Array<Stock>;
+  // for demo:
+  // private stocks: Array<Stock>;
   // samme:
   // private stocks: Stock[];
+
+  private stocks: Observable<Array<Stock>>;
   private nameFilter: FormControl = new FormControl();
 
   private keyword: string;

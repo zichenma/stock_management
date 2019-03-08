@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Stock } from '../stock-manage/stock';
+import { Stock } from '../stock';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { StockService } from '../stock.service';
 import { FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
@@ -16,8 +16,11 @@ export class StockFormComponent implements OnInit {
   formModel: FormGroup;
 
   categories: Array<string> = ['IT', 'Network', 'Finance'];
+  // for demo:
+  // stock: Stock;
 
-  stock: Stock;
+  // because stock is aysnc, here need to init stock:
+  stock: Stock = new Stock(0, '', 0, 0, '', []);
 
   constructor(
     private routeInfo: ActivatedRoute,
@@ -27,20 +30,50 @@ export class StockFormComponent implements OnInit {
 
   ngOnInit() {
     const stockId = +this.routeInfo.snapshot.params['id'];
-    this.stock = this.stockService.getStock(stockId);
+
     const fb = new FormBuilder();
+    // for demo only:
+    // this.formModel = fb.group(
+    //   {
+    //     name: [this.stock.name, [Validators.required, Validators.minLength(3)]],
+    //     price: [this.stock.price, [Validators.required]],
+    //     desc: [this.stock.desc],
+    //     categories: fb.array([
+    //       [(this.stock.categories.indexOf(this.categories[0]) !== -1)],
+    //       [(this.stock.categories.indexOf(this.categories[1]) !== -1)],
+    //       [(this.stock.categories.indexOf(this.categories[2]) !== -1)]
+    //     ], this.categoriesSelectValidator)
+    //   }
+    // );
     this.formModel = fb.group(
       {
-        name: [this.stock.name, [Validators.required, Validators.minLength(3)]],
-        price: [this.stock.price, [Validators.required]],
-        desc: [this.stock.desc],
+        name: ['', [Validators.required, Validators.minLength(3)]],
+        price: ['', [Validators.required]],
+        desc: [''],
         categories: fb.array([
-          [(this.stock.categories.indexOf(this.categories[0]) !== -1)],
-          [(this.stock.categories.indexOf(this.categories[1]) !== -1)],
-          [(this.stock.categories.indexOf(this.categories[2]) !== -1)]
+          [false],
+          [false],
+          [false]
         ], this.categoriesSelectValidator)
       }
     );
+
+    // for demo:
+    // this.stock = this.stockService.getStock(stockId);
+    this.stockService.getStock(stockId).subscribe(
+      data => {
+        this.stock = data;
+        this.formModel.reset({
+          name: data.name,
+          price: data.price,
+          desc: data.desc,
+          categories: [
+            [(data.categories.indexOf(this.categories[0]) !== -1)],
+            [(data.categories.indexOf(this.categories[1]) !== -1)],
+            [(data.categories.indexOf(this.categories[2]) !== -1)]
+          ]
+        });
+      });
   }
 
   categoriesSelectValidator (control: FormArray) {

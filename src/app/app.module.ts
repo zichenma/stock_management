@@ -15,6 +15,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { StockFormComponent } from './stock/stock-form/stock-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StockFilterPipe } from './stock/stock-filter.pipe';
+// import { Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 
 const routeConfig: Routes = [
@@ -43,7 +45,8 @@ const routeConfig: Routes = [
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routeConfig)
+    RouterModule.forRoot(routeConfig),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -25,7 +25,7 @@
         <th>Stock Rate</th>
         <th>Operation</th>
       </tr>
-      <tr *ngFor="let stock of stocks | stockFilter:'name':keyword; let i = index;">
+      <tr *ngFor="let stock of stocks |async|stockFilter:'name':keyword; let i = index;">
         <td>{{i + 1}}</td>
         <td>{{stock.name}}</td>
         <td>{{stock.price}}</td>
