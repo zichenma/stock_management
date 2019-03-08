@@ -63,6 +63,7 @@ export class StockFormComponent implements OnInit {
     this.stockService.getStock(stockId).subscribe(
       data => {
         this.stock = data;
+        // because data is async, here need to reset formModel
         this.formModel.reset({
           name: data.name,
           price: data.price,
