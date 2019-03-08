@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../shared/web-socket.service';
 import { map } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,6 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
 
+  title = 'SMS';
   messageCount = 0;
   socketUrl = 'ws://localhost:9091';
 
@@ -22,7 +24,4 @@ export class HeaderComponent implements OnInit {
       event => this.messageCount = event.messageCount
     );
   }
-
-
-
 }
